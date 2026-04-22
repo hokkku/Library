@@ -8,24 +8,23 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AuthorService {
-    private final AuthorRepository authorRepository;
-    public AuthorService(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
+public class AuthorServ {
+    private final AuthorRepository authorRep;
+    public AuthorServ(AuthorRepository authorRep) {
+        this.authorRep = authorRep;
     }
     public Author saveAuthor(String name) {
         Author author = new Author();
         author.setName(name);
-        return authorRepository.save(author);
+        return authorRep.save(author);
     }
-
     public Optional<Author> getAuthor(String name) {
-        return authorRepository.findByName(name);
+        return authorRep.findByName(name);
     }
     public void deleteAuthor(Long id) {
-        authorRepository.deleteById(id);
+        authorRep.deleteById(id);
     }
     public List<Author> getAllAuthors() {
-        return authorRepository.findAll();
+        return authorRep.findAll();
     }
 }

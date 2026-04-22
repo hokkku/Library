@@ -1,39 +1,35 @@
 package com.practice2.library.controller;
 
-
-
 import com.practice2.library.DTO.BookReq;
 import com.practice2.library.entity.Book;
-import com.practice2.library.service.BookService;
+import com.practice2.library.service.BookServ;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/books")
 public class BookController {
-
-    private final BookService bookService;
-    public BookController(BookService bookService) {
-        this.bookService = bookService;
+    private final BookServ bookServ;
+    public BookController(BookServ bookServ) {
+        this.bookServ = bookServ;
     }
 
     @PostMapping
     public Book saveBook(@RequestBody BookReq request) {
-        return bookService.saveBook(request.getTitle(), request.getAuthors());
+        return bookServ.saveBook(request.getTitle(), request.getAuthors());
     }
     @GetMapping
     public List<Book> getAllBooks() {
-        return bookService.getAllBooks();
+        return bookServ.getAllBooks();
     }
 
     @GetMapping("/by-author")
     public List<Book> getBooksByAuthor(@RequestParam String name) {
-        return bookService.getBooksByAuthor(name);
+        return bookServ.getBooksByAuthor(name);
     }
 
     @DeleteMapping("/{id}")
     public void deleteBook(@PathVariable Long id) {
-        bookService.deleteBook(id);
+        bookServ.deleteBook(id);
     }
 }

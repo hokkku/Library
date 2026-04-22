@@ -11,46 +11,42 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class BookService {
+public class BookServ {
 
-    private final BookRepository bookRepository;
-    private final AuthorRepository authorRepository;
-    public BookService(BookRepository bookRepository, AuthorRepository authorRepository) {
-        this.bookRepository = bookRepository;
-        this.authorRepository = authorRepository;
+    private final BookRepository bookRep;
+    private final AuthorRepository authorRep;
+    public BookServ(BookRepository bookRep, AuthorRepository authorRep) {
+        this.bookRep = bookRep;
+        this.authorRep = authorRep;
     }
     public Book saveBook(String title, Set<String> authorNames) {
-
-        if (bookRepository.findByTitle(title).isPresent()) {
+        if (bookRep.findByTitle(title).isPresent()) {
             throw new RuntimeException("Такая книга уже существует");
         }
         Set<Author> authors = new HashSet<>();
         for (String name : authorNames) {
-            Author author = authorRepository.findByName(name)
+            Author author = authorRep.findByName(name)
                     .orElseGet(() -> {
                         Author newAuthor = new Author();
                         newAuthor.setName(name);
-                        return authorRepository.save(newAuthor);
+                        return authorRep.save(newAuthor);
                     });
 
             authors.add(author);
         }
-
         Book book = new Book();
         book.setTitle(title);
         book.setAuthors(authors);
-
-        return bookRepository.save(book);
+        return bookRep.save(book);
     }
-
     public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+        return bookRep.findAll();
     }
     public List<Book> getBooksByAuthor(String name) {
-        return bookRepository.findByAuthorsName(name);
+        return bookRep.findByAuthorsName(name);
     }
     public void deleteBook(Long id) {
-        bookRepository.deleteById(id);
+        bookRep.deleteById(id);
     }
 }
 
