@@ -3,6 +3,7 @@ package com.practice2.library.controller;
 import com.practice2.library.DTO.BookReq;
 import com.practice2.library.entity.Book;
 import com.practice2.library.service.BookServ;
+import org.jspecify.annotations.NonNull;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class BookController {
     }
 
     @PostMapping
-    public Book saveBook(@RequestBody BookReq request) {
+    public Book saveBook(@RequestBody @NonNull BookReq request) {
         return bookServ.saveBook(request.getTitle(), request.getAuthors());
     }
     @GetMapping

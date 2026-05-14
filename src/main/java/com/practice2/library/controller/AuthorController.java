@@ -26,7 +26,7 @@ public class AuthorController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAuthor(  Long id) {
+    public void deleteAuthor(Long id) {
         authorServ.deleteAuthor(id);
     }
 
