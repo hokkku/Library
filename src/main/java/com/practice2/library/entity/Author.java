@@ -6,8 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -24,6 +23,6 @@ public class Author {
 
     @ManyToMany(mappedBy = "authors")
     @JsonIgnore
-    private Set<Book> books;
+    private Set<Book> books = new HashSet<>();
 }
 
