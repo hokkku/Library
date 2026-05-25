@@ -1,11 +1,11 @@
 package com.practice2.library.controller;
 
 import com.practice2.library.DTO.AuthorReq;
+import com.practice2.library.DTO.AuthorResponse;
 import com.practice2.library.entity.Author;
 import com.practice2.library.service.AuthorServ;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/authors")
@@ -16,22 +16,30 @@ public class AuthorController {
     }
 
     @PostMapping
-    public Author saveAuthor(@RequestBody AuthorReq request) {
-        return authorServ.saveAuthor(request.getName());
+    public AuthorResponse saveAuthor(@RequestBody AuthorReq request) {
+       Author author = authorServ.saveAuthor(request.getName());
+       return authorServ.toResponse(author);
     }
 
     @GetMapping
-    public Optional<Author> getAuthor(@RequestParam String name) {
-        return authorServ.getAuthor(name);
+    public AuthorResponse getAuthor(@RequestParam String name) {
+        Author author = authorServ
+                .getAuthor(name)
+                .orElseThrow();
+
+        return authorServ.toResponse(author);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAuthor(Long id) {
+    public void deleteAuthor(@PathVariable Long id) {
         authorServ.deleteAuthor(id);
     }
 
     @GetMapping("/all")
-    public List<Author> getAllAuthors() {
-        return authorServ.getAllAuthors();
+    public List<AuthorResponse> getAllAuthors() {
+        return authorServ.getAllAuthors()
+                .stream()
+                .map(authorServ::toResponse)
+                .toList();
     }
 }

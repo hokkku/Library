@@ -1,6 +1,8 @@
 package com.practice2.library.service;
 
 
+import com.practice2.library.DTO.BookResponse;
+import com.practice2.library.Exception.BookAlreadyExistsException;
 import com.practice2.library.entity.Author;
 import com.practice2.library.entity.Book;
 import com.practice2.library.repository.AuthorRepository;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class BookServ {
@@ -21,7 +24,7 @@ public class BookServ {
     }
     public Book saveBook(String title, Set<String> authorNames) {
         if (bookRep.findByTitle(title).isPresent()) {
-            throw new RuntimeException("Такая книга уже существует");
+            throw new BookAlreadyExistsException ("Такая книга уже существует");
         }
         Set<Author> authors = new HashSet<>();
         for (String name : authorNames) {
@@ -47,6 +50,21 @@ public class BookServ {
     }
     public void deleteBook(Long id) {
         bookRep.deleteById(id);
+    }
+
+    public BookResponse toResponse(Book book){
+        return new BookResponse(
+                book.getId(),
+                book.getTitle(),
+
+                book.getAuthors()
+                        .stream()
+                        .map(Author::getName)
+                        .collect(Collectors.toSet())
+        );
+    }
+    public List<Book> searchBooksByTitle(String title){
+        return bookRep.searchBooksByTitle(title);
     }
 }
 
