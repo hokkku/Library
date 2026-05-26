@@ -26,16 +26,16 @@ public class BookServ {
         if (bookRep.findByTitle(title).isPresent()) {
             throw new BookAlreadyExistsException ("Такая книга уже существует");
         }
-        Set<Author> authors = new HashSet<>();
+        Set<Author> authors = new HashSet<>(authorRep.findByNameIn(authorNames));
+        Set<String> foundNames = authors.stream()
+                .map(Author::getName)
+                .collect(Collectors.toSet());
         for (String name : authorNames) {
-            Author author = authorRep.findByName(name)
-                    .orElseGet(() -> {
-                        Author newAuthor = new Author();
-                        newAuthor.setName(name);
-                        return authorRep.save(newAuthor);
-                    });
-
-            authors.add(author);
+            if (!foundNames.contains(name)) {
+                Author author = new Author();
+                author.setName(name);
+                authors.add(authorRep.save(author));
+            }
         }
         Book book = new Book();
         book.setTitle(title);

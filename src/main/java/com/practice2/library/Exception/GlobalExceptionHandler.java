@@ -11,7 +11,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse>
     handleBookDuplicate(BookAlreadyExistsException ex) {
         ErrorResponse response = new ErrorResponse(ex.getMessage(), 409);
-
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .body(response);
