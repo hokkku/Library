@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BookAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse>
-    handleBookDuplicate(BookAlreadyExistsException ex) {
+    public ResponseEntity<ErrorResponse> handleBookDuplicate(BookAlreadyExistsException ex) {
         ErrorResponse response = new ErrorResponse(ex.getMessage(), 409);
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)

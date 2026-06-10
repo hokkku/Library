@@ -24,7 +24,7 @@ public class BookServ {
     }
     public Book saveBook(String title, Set<String> authorNames) {
         if (bookRep.findByTitle(title).isPresent()) {
-            throw new BookAlreadyExistsException ("Такая книга уже существует");
+            throw new BookAlreadyExistsException ("Книга " + title + " уже существует");
         }
         Set<Author> authors = new HashSet<>(authorRep.findByNameIn(authorNames));
         Set<String> foundNames = authors.stream()

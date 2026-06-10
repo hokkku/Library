@@ -21,7 +21,7 @@ public class AuthorController {
        return authorServ.toResponse(author);
     }
 
-    @GetMapping
+    @GetMapping("")
     public AuthorResponse getAuthor(@RequestParam String name) {
         Author author = authorServ
                 .getAuthor(name)

@@ -28,7 +28,7 @@ public class BookController {
                 .map(bookServ::toResponse)
                 .toList();
     }
-    @GetMapping
+    @GetMapping("/by-author")
     public List<BookResponse> getBooksByAuthor(@RequestParam String name) {
         return bookServ.getBooksByAuthor(name)
                 .stream()
