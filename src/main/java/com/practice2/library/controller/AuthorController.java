@@ -17,8 +17,8 @@ public class AuthorController {
 
     @PostMapping
     public AuthorResponse saveAuthor(@RequestBody AuthorReq request) {
-       Author author = authorServ.saveAuthor(request.getName());
-       return authorServ.toResponse(author);
+        Author author = authorServ.saveAuthor(request.getName(), request.getBookTitles());
+        return authorServ.toResponse(author);
     }
 
     @GetMapping("")

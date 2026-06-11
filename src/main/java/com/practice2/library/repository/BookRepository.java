@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("""
@@ -24,4 +25,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
         LIKE LOWER(CONCAT('%', :title, '%'))
         """)
     List<Book> searchBooksByTitle(@Param("title") String title);
+    List<Book> findByTitleIn(Set<String> titles);
 }
